@@ -2,89 +2,46 @@
 <html>
 <head>
   <title>WeatherApp</title>
-
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link href="css/animate.css" rel="stylesheet">
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-
+  <!--CSS LINKS-->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link href="css/animate.css" rel="stylesheet">
+  <!--SCIPT LINKS-->
+  <script src="script/script.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 </head>
 
+<!--Run GPS and weather query onload-->
 <body onload="refresh()">
-
-
 
 <div class="container">
   <div class="row row-centered pos">
-
-  <div id="weatherData" class="animated slideInDown" class="col-lg-8 col-xs-12 col-centered">
-
-  <center>
-  <h1><p style="color:#fff">Welcome to</p></h1>
-  <h2><div id="weather" style="font-size:100%"></div></h2>
-  <h3><p style="color:#fff">The current temprature is</p></h3>
-  <h1><div id="weather2" style="font-size:100%"></div></h1>
- 
-  <br>
-
-  <p><input id="clickMe" type="button"  id="btn" class="btn btn-primary" value="REFRESH" onclick="refresh();" /></p>
-
-  <center>
-  <div id="loader"><img src="img/preloader.gif"></div> 
-</center>
-
-</div>
-</div>
+    <div id="weatherData" class="animated slideInDown" class="col-lg-8 col-xs-12 col-centered">
+    <center>
+    <h1><p style="color:#fff">Welcome to</p></h1>
+    <h2><div id="weather" style="font-size:100%"></div></h2>
+    <h3><p style="color:#fff">The current temprature is</p></h3>
+    <h1><div id="weather2" style="font-size:100%"></div></h1>
+    <h3><p style="color:#fff">With a wind speed of</p></h3>
+    <h1><div id="weather3" style="font-size:100%"></div></h1>
+    <br>
+    <p><input id="clickMe" type="button"  id="btn" class="btn btn-primary" value="REFRESH" onclick="refresh();" /></p>
+    <div id="loader"><img src="img/preloader.gif"></div> 
+    </center>
+    </div>
+  </div>
 </div>
 
-</body>
-
-<script type="text/javascript">
-
-function refresh(){
-
-var UserLocation={};
-if (navigator.geolocation) {
-navigator.geolocation.getCurrentPosition(success,error);
-}
-
-else {
-alert('Geolocation is not supported');
-}
-
-function error() {
-alert("Your Location cound not be found");
-}
-
-function success(position) {
-      var UserLocationlat = Math.round( position.coords.latitude * Math.pow( 10, 6 ) ) / Math.pow(10 ,6 );
-      var UserLocationlng = Math.round(position.coords.longitude * Math.pow( 10, 6 ) ) / Math.pow(10 ,6 );;
-      document.getElementById("weather").innerHTML=UserLocationlat;
-      document.getElementById("weather2").innerHTML=UserLocationlng;
-      go (UserLocationlat, UserLocationlng)
-
-}     
-function go(UserLocationlat, UserLocationlng){
-    $.getJSON( "http://api.openweathermap.org/data/2.5/weather?lat=" + UserLocationlat + "&lon=" + UserLocationlng + "&APPID=f352ec6da200322d4edd5bcbabd6d756", function( data ) {
-      console.log(data);
-       $("#weather").html(data.name);
-       $("#weather2").html(parseInt(data.main.temp_max) - 273 + "&deg;C");
-      
- 
-    });
-  }
-}
-</script>
-
-<script type="text/javascript">
-$(document).ajaxStart(function() {
-        // show loader on start
+  <!-- Spinner while queries loads -->
+  <script type="text/javascript">
+    $(document).ajaxStart(function() {
+        // show spinner on start
         $("#loader").css("display","block");
     }).ajaxSuccess(function() {
-        // hide loader on success
+        // hide spinner on success
         $("#loader").css("display","none");
     });
-</script>
+  </script>
 
+</body>
 </html>
